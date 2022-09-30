@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "proyecto de api que usa get,put,delete,post,patch",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon ./src/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jesuseladiom/api-js.git"
