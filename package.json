@@ -4,7 +4,9 @@
   "description": "proyecto de api que usa get,put,delete,post,patch",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/index.js"
+    "start": "nodemon ./src/index.js",
+    "production":"babel-node --presets=@babel/preset-env",
+    "dev": "nodemon --exec npm run production src/index"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,10 @@
     "promise-mysql": "^5.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.3",
+    "@babel/node": "^7.19.1",
+    "@babel/preset-env": "^7.19.3",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
   }
