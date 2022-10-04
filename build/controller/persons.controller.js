@@ -106,7 +106,6 @@ var addPerson = /*#__PURE__*/function () {
             flagError = 0;
             _context3.prev = 1;
             _req$body = req.body, first_name = _req$body.first_name, last_name = _req$body.last_name, edad = _req$body.edad, genero = _req$body.genero;
-            console.log("controlador");
 
             if (first_name === undefined || last_name === undefined || edad === undefined || genero === undefined) {
               flagError = 1;
@@ -115,41 +114,41 @@ var addPerson = /*#__PURE__*/function () {
               });
             }
 
-            _context3.next = 7;
+            _context3.next = 6;
             return _person.methods.addPerson(req.body, res);
 
-          case 7:
+          case 6:
             query = _context3.sent;
             if (query.affectedRows) res.status(201).json({
               "message": "Person added"
             });else res.json({
               "message": "Person not added"
             });
-            _context3.next = 18;
+            _context3.next = 17;
             break;
 
-          case 11:
-            _context3.prev = 11;
+          case 10:
+            _context3.prev = 10;
             _context3.t0 = _context3["catch"](1);
 
             if (!flagError) {
-              _context3.next = 17;
+              _context3.next = 16;
               break;
             }
 
             return _context3.abrupt("return");
 
-          case 17:
+          case 16:
             res.status(400).json({
               "message": _context3.t0.message
             });
 
-          case 18:
+          case 17:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[1, 11]]);
+    }, _callee3, null, [[1, 10]]);
   }));
 
   return function addPerson(_x5, _x6) {
@@ -201,49 +200,59 @@ var deletePerson = /*#__PURE__*/function () {
 
 var updatePerson = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
-    var id, _req$body2, first_name, last_name, edad, genero, person, connection, result;
+    var flagError, id, _req$body2, first_name, last_name, edad, genero, query;
 
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
+            flagError = 0;
+            _context5.prev = 1;
             id = req.params.id;
             _req$body2 = req.body, first_name = _req$body2.first_name, last_name = _req$body2.last_name, edad = _req$body2.edad, genero = _req$body2.genero;
 
             if (id === undefined || first_name === undefined || last_name === undefined || edad === undefined || genero === undefined) {
+              flagError = 1;
               res.status(400).json({
                 "message": "Bad Request. Please fill all fields"
               });
             }
 
-            person = {
-              first_name: first_name,
-              last_name: last_name,
-              edad: edad,
-              genero: genero
-            };
-            _context5.next = 6;
-            return getConnection();
+            _context5.next = 7;
+            return _person.methods.updatePerson(id, req.body, res);
 
-          case 6:
-            connection = _context5.sent;
-            _context5.next = 9;
-            return connection.query("update persons SET ? where person_id= ?", [person, id]);
-
-          case 9:
-            result = _context5.sent;
-            if (result.affectedRows) res.json({
+          case 7:
+            query = _context5.sent;
+            if (query.affectedRows) res.status(200).json({
               "message": "Person updated"
             });else res.json({
-              "message": "Person not found"
+              "message": "Person not updated"
             });
+            _context5.next = 18;
+            break;
 
           case 11:
+            _context5.prev = 11;
+            _context5.t0 = _context5["catch"](1);
+
+            if (!flagError) {
+              _context5.next = 17;
+              break;
+            }
+
+            return _context5.abrupt("return");
+
+          case 17:
+            res.status(400).json({
+              "message": _context5.t0.message
+            });
+
+          case 18:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5);
+    }, _callee5, null, [[1, 11]]);
   }));
 
   return function updatePerson(_x9, _x10) {

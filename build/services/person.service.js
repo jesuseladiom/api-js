@@ -154,11 +154,51 @@ function _addPerson() {
   return _addPerson.apply(this, arguments);
 }
 
+function updatePerson(_x8, _x9, _x10) {
+  return _updatePerson.apply(this, arguments);
+}
+
+function _updatePerson() {
+  _updatePerson = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id, body, response) {
+    var first_name, last_name, edad, genero, person, connection, result;
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            first_name = body.first_name, last_name = body.last_name, edad = body.edad, genero = body.genero;
+            person = {
+              first_name: first_name,
+              last_name: last_name,
+              edad: edad,
+              genero: genero
+            };
+            _context5.next = 4;
+            return (0, _connections.getConnection)();
+
+          case 4:
+            connection = _context5.sent;
+            _context5.next = 7;
+            return connection.query("update persons SET ? where person_id= ?", [person, id]);
+
+          case 7:
+            result = _context5.sent;
+            return _context5.abrupt("return", result);
+
+          case 9:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  }));
+  return _updatePerson.apply(this, arguments);
+}
+
 var methods = {
   addPerson: addPerson,
   readPersons: readPersons,
   readPerson: readPerson,
-  //updateProduct,
+  updatePerson: updatePerson,
   deletePerson: deletePerson
 };
 exports.methods = methods;
