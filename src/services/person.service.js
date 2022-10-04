@@ -26,6 +26,14 @@ async function addPerson(body, response) {
         return result;
 }
 
+async function updatePerson(id, body, response) {
+    const {first_name, last_name, edad, genero}= body;
+    const person= {first_name, last_name, edad, genero};
+    const connection = await getConnection();
+    const result= await connection.query("update persons SET ? where person_id= ?", [person, id]);
+    return result;
+}
+
 
 
 
@@ -33,6 +41,6 @@ export const methods = {
     addPerson,
     readPersons,
     readPerson,
-    //updateProduct,
+    updatePerson,
     deletePerson
 }

@@ -1,4 +1,5 @@
 import { methods as personServices } from "../services/person.service";
+import {getConnection} from "./../common/connections"
 
 const getPersons= async (req,res) => {
     try {
@@ -26,8 +27,7 @@ const addPerson = async (req, res)=>{
     let flagError=0;
     try {
         const {first_name, last_name, edad, genero}= req.body;
-        console.log("controlador")
-        if (first_name===undefined || last_name===undefined|| edad===undefined|| genero===undefined) {
+       if (first_name===undefined || last_name===undefined|| edad===undefined|| genero===undefined) {
             flagError= 1;
             res.status(400).json({"message":"Bad Request. Please fill all fields"});
         }
@@ -39,8 +39,6 @@ const addPerson = async (req, res)=>{
         else res.status(400).json({"message":error.message});
     }
 };
-
-
 
 const deletePerson = async (req, res)=>{
     try {
@@ -54,16 +52,22 @@ const deletePerson = async (req, res)=>{
 };
 
 const updatePerson= async (req,res) => {
-    const {id}= req.params;
-    const {first_name, last_name, edad, genero}= req.body;
-    if (id===undefined||first_name===undefined || last_name===undefined|| edad===undefined|| genero===undefined) {
-        res.status(400).json({"message":"Bad Request. Please fill all fields"});
+    let flagError=0;
+    try {
+
+        const {id}= req.params;
+        const {first_name, last_name, edad, genero}= req.body;
+        if (id===undefined||first_name===undefined || last_name===undefined|| edad===undefined|| genero===undefined) {
+            flagError= 1;
+            res.status(400).json({"message":"Bad Request. Please fill all fields"});
+        }
+        const query = await personServices.updatePerson(id,req.body,res);
+        if (query.affectedRows) res.status(200).json({"message":"Person updated"});
+        else res.json({"message":"Person not updated"});    
+    } catch (error) {
+        if (flagError) return;
+        else res.status(400).json({"message":error.message});
     }
-    const person= {first_name, last_name, edad, genero};
-    const connection= await getConnection();
-    const result= await connection.query("update persons SET ? where person_id= ?", [person, id]);
-    if (result.affectedRows) res.json({"message":"Person updated"});
-    else res.json({"message":"Person not found"});
 };
 
 export const methods = {
