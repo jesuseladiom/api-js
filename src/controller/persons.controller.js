@@ -1,5 +1,4 @@
 import { methods as personServices } from "../services/person.service";
-import {getConnection} from "./../common/connections"
 
 const getPersons= async (req,res) => {
     try {
