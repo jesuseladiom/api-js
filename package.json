@@ -4,8 +4,9 @@
   "description": "proyecto de api que usa get,put,delete,post,patch",
   "main": "index.js",
   "scripts": {
-    "start": "npm run production src/index",
+    "start": "node build/index.js",
     "production":"babel-node --presets=@babel/preset-env",
+    "build":"babel src -d build",
     "dev": "nodemon --exec npm run production src/index"
   },
   "repository": {
