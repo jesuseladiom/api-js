@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/index.js",
-    "production":"babel-node --presets=@babel/preset-env",
-    "build":"babel src -d build",
+    "production": "babel-node --presets=@babel/preset-env",
+    "build": "babel src -d build",
     "dev": "nodemon --exec npm run production src/index"
   },
   "repository": {
@@ -23,6 +23,7 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
+    "heroku": "^7.64.0",
     "promise-mysql": "^5.2.0"
   },
   "devDependencies": {
