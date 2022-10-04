@@ -1,11 +1,14 @@
 import express from 'express';
 import morgan from 'morgan';
+//import dotenv from 'dotenv'
 
 import personRoutes  from './routes/index.routes'
 
 const app= express();
 
-app.set("port", 4000);
+const PORT = process.env.PORT || 4000;
+
+app.set("port", PORT);
 
 //middleware
 app.use(morgan("dev"));
