@@ -34,13 +34,25 @@ async function updatePerson(id, body, response) {
     return result;
 }
 
+async function patchPerson(id, body, response) {
+    const {first_name, last_name, edad, genero}= body;
 
-
+    let person= {first_name, last_name, edad, genero};
+    if (first_name===undefined) delete person.first_name;
+    if (last_name===undefined) delete person.last_name;
+    if (edad===undefined) delete person.edad;
+    if (genero===undefined) delete person.genero;
+    
+    const connection = await getConnection();
+    const result= await connection.query("update persons SET ? where person_id= ?", [person, id]);
+    return result;
+}
 
 export const methods = {
     addPerson,
     readPersons,
     readPerson,
     updatePerson,
-    deletePerson
+    deletePerson,
+    patchPerson
 }

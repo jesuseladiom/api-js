@@ -10,6 +10,7 @@ router.get("/", personController.getPersons);
 router.get("/:id", personController.getPerson);
 router.post("/", personController.addPerson);
 router.put("/:id", personController.updatePerson);
+router.patch("/:id", personController.patchPerson);
 router.delete("/:id", personController.deletePerson);
 
 export default router;

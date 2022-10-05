@@ -69,10 +69,31 @@ const updatePerson= async (req,res) => {
     }
 };
 
+const patchPerson= async (req,res) => {
+    let flagError=0;
+    try {
+
+        const {id}= req.params;
+        const {first_name, last_name, edad, genero}= req.body;
+
+        if (first_name===undefined && last_name===undefined && edad===undefined && genero===undefined) {
+            flagError= 1;
+            res.status(400).json({"message":"Bad Request. Fill at least one field"});
+        }
+        const query = await personServices.patchPerson(id,req.body,res);
+        if (query.affectedRows) res.status(200).json({"message":"Person patched"});
+        else res.json({"message":"Person not patched"});    
+    } catch (error) {
+        if (flagError) return;
+        else res.status(400).json({"message":error.message});
+    }
+};
+
 export const methods = {
     getPersons,
     getPerson,
     addPerson,
     deletePerson,
-    updatePerson
+    updatePerson,
+    patchPerson
 };
