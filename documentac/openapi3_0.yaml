@@ -1,0 +1,134 @@
+openapi: 3.0.1
+info:
+  title: API Mantenimiento al catálogo de personas
+  description: Esta api se encarga de manejar la información de la base de datos del catálogo de personas
+  version: 1.0.0
+servers:
+- url: http://localhost:4000/api/persons/
+tags:
+- name: personas
+  description: Este endpoint maneja toda la información del catálogo de personas.
+  
+paths:
+  /:
+    post:
+      tags:
+      - personas
+      summary: Inserta la información de una persona a la bd
+      parameters:
+      ####- $ref: '#/components/parameters/token'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyPersonsPost'
+        required: true
+      responses:
+        201:
+          description: (OK) La información fué insertada a la bd
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/ExitoClientesPosts'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  
+  /{id}:
+    get:
+      tags:
+        - personas
+      summary: Obtiene la información de una persona en especifico
+      parameters:
+        ###- $ref: '#/components/parameters/token' 
+        - name: id
+          in: path
+          description: Identificador de la persona a obtener
+          required: true
+          schema:
+            type: string
+      responses:
+        200: 
+          description: (ok) la informacion del cliente se obtuvo correctamente
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/ExitoClienteGet'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  responses:
+    Unauthorized:
+      description: (unauthorized) no hay autorizacion para llamar el servicio
+    NotFound:
+      description: (NotFound) no se encontró la información
+    BadRequest:
+      description: (BadRequest) los datos enviados son incorrectos o hay datos obligatorios incompletos
+    ServerError:
+      description: Error en el servidor
+  
+  parameters:
+      token:
+        in: header
+        description: Token de autenticacion
+        required: false
+
+  schemas:
+    BodyPersonsPost:
+      type: object
+      properties: 
+        first_name:
+          type: string
+          description: Nombre(s) de la persona
+        last_name:
+          type: string
+          description: Apellido de la persona
+        edad:
+          type: integer
+          description: Edad de la persona
+        genero:
+          type: string
+          description: Genero de la persona (F,M)
+    ExitoClientesPosts:
+      type: object
+      properties:
+        respuesta:
+          type: integer
+          enum: [1]
+          description: Bandera que nos indica que la llamada fue exitosa
+          idPersona:
+            type: integer
+            enum: [222]
+            description: Id que le corresponde a la persona asignada
+    
+    ExitoClienteGet:
+      type: object
+      properties:
+        person_id:
+          type: integer
+          descripcion: identificador de la persona
+        first_name:
+          type: string
+          description: Nombre(s) de la persona
+        last_name:
+          type: string
+          description: Apellido de la persona
+        edad:
+          type: integer
+          description: Edad de la persona
+        genero:
+          type: string
+          description: Genero de la persona (F,M)
+
