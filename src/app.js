@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 //import morgan from 'morgan';
 //import dotenv from 'dotenv'
 
@@ -16,6 +16,9 @@ app.use(express.json())
 
 //routes
 app.use("/api/persons", personRoutes);
+app.use("/", (req, res)=>{
+    res.status(404).json("Read the documentation of the Api");
+});
 
 
 export default app;
