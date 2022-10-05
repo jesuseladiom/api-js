@@ -1,0 +1,236 @@
+openapi: 3.0.1
+info:
+  title: API Mantenimiento al catálogo de personas
+  description: Esta api se encarga de manejar la información de la base de datos del catálogo de personas
+  version: 1.0.0
+servers:
+- url: http://localhost:4000/api/persons/
+tags:
+- name: personas
+  description: Este endpoint maneja toda la información del catálogo de personas.
+  
+paths:
+  /:
+    post:
+      tags:
+      - personas
+      summary: Inserta la información de una persona a la bd
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyPersonsPost'
+        required: true
+      responses:
+        201:
+          description: (OK) La información fué insertada a la bd
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/ExitoPersonasPosts'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        500:
+          $ref: '#/components/responses/ServerError'
+    get:
+      tags:
+        - personas
+      summary: Obtiene la información de todas las personas en especifico
+      responses:
+        200: 
+          description: (ok) la informacion de las personas se obtuvo correctamente
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/ExitoPersonaGet'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /{id}:
+    get:
+      tags:
+        - personas
+      summary: Obtiene la información de una persona en especifico
+      parameters:
+        ###- $ref: '#/components/parameters/token' 
+        - name: id
+          in: path
+          description: Identificador de la persona a obtener
+          required: true
+          schema:
+            type: string
+      responses:
+        200: 
+          description: (ok) la informacion de la persona se obtuvo correctamente
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/ExitoPersonaGet'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    
+    delete:
+      tags:
+        - personas
+      summary: Elimina la información de una persona en especifico
+      parameters:
+        ###- $ref: '#/components/parameters/token' 
+        - name: id
+          in: path
+          description: Identificador de la persona a obtener
+          required: true
+          schema:
+            type: string
+      responses:
+        200: 
+          description: (ok) Se eliminó la informacion de la persona correctamente
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/ExitoPersonasDelete'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    
+    put:
+      tags:
+        - personas
+      summary: Actualiza la información de una persona en especifico
+      parameters:
+        ###- $ref: '#/components/parameters/token' 
+        - name: id
+          in: path
+          description: Identificador de la persona a actualizar
+          required: true
+          schema:
+            type: string
+      responses:
+        200: 
+          description: (ok) Se eliminó la informacion de la persona correctamente
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/ExitoPersonasUpdate'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    
+    patch:
+      tags:
+        - personas
+      summary: Actualiza la información de una persona (parcial) en especifico
+      parameters:
+        ###- $ref: '#/components/parameters/token' 
+        - name: id
+          in: path
+          description: Identificador de la persona a actualizar
+          required: true
+          schema:
+            type: string
+      responses:
+        200: 
+          description: (ok) Se eliminó la informacion de la persona correctamente
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/ExitoPersonasPatch'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  responses:
+    Unauthorized:
+      description: (unauthorized) no hay autorizacion para llamar el servicio
+    Exito:
+      description: (OK) La información se guardó correctamente
+    Create:
+      description: (Created) La información se Creó correctamente
+    NotFound:
+      description: (NotFound) no se encontró la información
+    BadRequest:
+      description: (BadRequest) los datos enviados son incorrectos o hay datos obligatorios incompletos
+    ServerError:
+      description: Error en el servidor
+  
+  #parameters:
+      ##token:
+       # in: header
+       # description: Token de autenticacion
+       # required: false
+
+  schemas:
+    BodyPersonsPost:
+      type: object
+      properties: 
+        first_name:
+          type: string
+          description: Nombre(s) de la persona
+        last_name:
+          type: string
+          description: Apellido de la persona
+        edad:
+          type: integer
+          description: Edad de la persona
+        genero:
+          type: string
+          description: Genero de la persona (F,M)
+    ExitoPersonasPosts:
+      type: object
+      properties:
+        message:
+          type: string
+          enum: ["Person added"]
+          description: Mensaje que indica que la inserción fue exitosa
+    ExitoPersonasDelete:
+      type: object
+      properties:
+        message:
+          type: string
+          enum: ["Person deleted"]
+          description: Mensaje que indica que la eliminación fue exitosa
+    ExitoPersonasUpdate:
+      type: object
+      properties:
+        message:
+          type: string
+          enum: ["Person updated"]
+          description: Mensaje que indica que la actualización fue exitosa
+    ExitoPersonasPatch:
+      type: object
+      properties:
+        message:
+          type: string
+          enum: ["Person updated partial"]
+          description: Mensaje que indica que la actualización (parcial) fue exitosa
+    ExitoPersonaGet:
+      type: object
+      properties:
+        person_id:
+          type: integer
+          description: Nombre(s) de la persona
+        first_name:
+          type: string
+          description: Nombre(s) de la persona
+        last_name:
+          type: string
+          description: Apellido de la persona
+        edad:
+          type: integer
+          description: Edad de la persona
+        genero:
+          type: string
+          description: Genero de la persona (F,M)
+
