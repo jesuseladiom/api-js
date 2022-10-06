@@ -4,7 +4,7 @@ info:
   description: Esta api se encarga de manejar la información de la base de datos del catálogo de personas
   version: 1.0.0
 servers:
-- url: http://localhost:4000/api/persons/
+- url: https://emeza-express-sql.herokuapp.com/api/persons/
 tags:
 - name: personas
   description: Este endpoint maneja toda la información del catálogo de personas.
@@ -190,7 +190,7 @@ components:
     ExitoPersonasPosts:
       type: object
       properties:
-        message:
+        message: 
           type: string
           enum: ["Person added"]
           description: Mensaje que indica que la inserción fue exitosa
