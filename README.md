@@ -14,6 +14,7 @@ El objetivo es insertar, consultar, actualizar y eliminar registros de personas 
 
 # Instalación de módulos o paquetes 
 1. npm i dotenv express promise-mysql heroku
+1. npm i cors
 1. npm i morgan nodemon -D (para ambiente de desarrollo solamente)
 1. npm i -D @babel/cli @babel/core @babel/node @babel/preset-env (para ambiente de desarrollo solamente)
 1. npm install --save-dev jest supertest @types/jest babel-jest (Desarrollo)
